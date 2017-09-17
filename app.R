@@ -79,7 +79,7 @@ server <- function(input, output) {
     
     gagnarammi %>% 
       ggplot(aes(time, value)) +
-      geom_line(aes(color = color), alpha = 0.66) +
+      geom_line(aes(color = Tegund), alpha = 0.66) +
       scale_x_datetime() + 
       ylab("Styrkur (µg/m³)") +
       facet_wrap(~Tegund)
