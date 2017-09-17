@@ -6,19 +6,26 @@ library(stringr)
 
 # Define UI for application 
 ui <- fluidPage(
+  headerPanel("Loftgæðamælingar í Fjölskyldu- og húsdýragarði"),
+  
+  sidebarPanel(
   dateRangeInput(inputId = "dags", label = "Veldu tímabil",
                  start = Sys.Date()-16, end = Sys.Date()-10,
-                 format = "yyyy-mm-dd", min = "2010-01-01", max = Sys.Date(), 
-                 weekstart = 1, language = "is", separator = "til"),
+                 format = "yyyy-mm-dd", min = "2009-01-01", max = Sys.Date(), 
+                 weekstart = 1, language = "is", separator = "til")
+  ),
   
-  plotOutput(outputId = "utsk")
-)
+  mainPanel(
+  plotOutput(outputId = "mynd"),
+  textOutput(outputId = "utsk")
+  )
 
+)
 
 # Define server logic required
 server <- function(input, output) {
   
-  output$utsk <- renderPlot({
+  output$mynd <- renderPlot({
     
     #Tökum dagsetningar-inntök og skerum niður í búta
     fors_upph <- str_split(string = input$dags[1], pattern = "-", n = 3, simplify = TRUE)
@@ -72,14 +79,13 @@ server <- function(input, output) {
     
     gagnarammi %>% 
       ggplot(aes(time, value)) +
-      geom_line(aes(color = Tegund), alpha = 0.66) +
-      scale_x_datetime() +
-      ylim(c(0, 50)) + 
+      geom_line(aes(color = color), alpha = 0.66) +
+      scale_x_datetime() + 
       ylab("Styrkur (µg/m³)") +
       facet_wrap(~Tegund)
   })
+  output$utsk <- renderText({"Ef óskað er eftir frekari upplýsingum varðandi gögnin er bent á hafa samband við Heilbrigðiseftirlit Reykjavíkur í síma 411 1111. Hafa skal samráð við Heilbrigðiseftirlit Reykjavíkur um birtingu gagna. Vinsamlega athugið að þetta eru rauntímagögn sem ekki er búið að leiðrétta og því geta leynst í þeim villur."})
 }
 
 # Run the application 
 shinyApp(ui = ui, server = server)
-
