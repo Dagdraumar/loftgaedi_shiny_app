@@ -101,7 +101,7 @@ rammasmidur <- function(stod, timabil) {
                               parameterid == "41" ~ "Brennisteinsdíoxíð (SO2)",
                               parameterid == "42" ~ "Brennisteinsvetni (H2S)",
                               parameterid == "91" ~ "Svifryk (PM10)"))
-  return(gagnarammi)
+  gagnarammi
 }
 
 # ui.R ----------------------------------------------------------------------
